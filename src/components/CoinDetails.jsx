@@ -1,4 +1,4 @@
-import { Box, Container, HStack, Radio, RadioGroup, VStack,Text,Image } from '@chakra-ui/react'
+import { Box, Container, HStack, Radio, RadioGroup, VStack,Text,Image, Stat, StatLabel, StatNumber, StatHelpText, StatArrow, Badge } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import Loader from './Loader';
 import { useParams } from 'react-router-dom';
@@ -13,6 +13,7 @@ function CoinDetails() {
   const [error, setError] = useState(false)
   const [currency, setCurrency]=useState('inr')
   const params=useParams()
+  const currencySymbol= currency==="inr"?"₹":currency==="eur"?"€":"$";
 
   useEffect(()=> {
     const fetchCoin = async () => {
@@ -51,7 +52,17 @@ function CoinDetails() {
               Last updated on {Date(coin.market_data.last_updated).split('G')[0]}
             </Text>
 
-            <Image src={coin.image.large}></Image>
+            <Image w={'16'} h={'16'} objectFit={'contain'} src={coin.image.large} />
+
+            <Stat>
+              <StatLabel>{coin.name}</StatLabel>
+              <StatNumber>{currencySymbol}{coin.market_data.current_price[currency]}</StatNumber>
+              <StatHelpText>
+                <StatArrow type={coin.market_data.price_change_percentage_24h>0?"increase":"decrease"} />
+                {coin.market_data.price_change_percentage_24h}%
+              </StatHelpText>
+            </Stat>
+            <Badge fontSize={'2xl'}  >{`#${coin.market_cap_rank}`}</Badge>
 
           </VStack>
         </>
