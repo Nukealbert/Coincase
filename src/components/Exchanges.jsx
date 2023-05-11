@@ -26,11 +26,11 @@ function Exchanges() {
 
   if(error) return <ErrorComponent message={"Error while fetching Exchanges"} />
   return (
-    <Container maxW={'container.xl'}>
+    <Container maxW={'container.xl'} >
       {
         loading ? <Loader/>:<>
         
-          <HStack wrap={'wrap'}>
+          <HStack wrap={'wrap'} justifyContent={'space-evenly'}>
             {
              exchanges.map((i) => (
 
